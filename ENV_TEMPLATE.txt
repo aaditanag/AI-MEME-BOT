@@ -1,0 +1,22 @@
+# Copy this file to .env in the project root
+# File name: .env (no .txt extension)
+
+# Server Configuration
+PORT=5000
+NODE_ENV=development
+
+# Image Generation API (Optional)
+# The system works WITHOUT this key using placeholder images
+# Text overlay functionality works perfectly either way!
+#
+# To enable real AI image generation:
+# 1. Sign up at https://replicate.com (free tier available)
+# 2. Get API token: https://replicate.com/account/api-tokens
+# 3. Paste your token below (remove the # to uncomment)
+#
+# REPLICATE_API_KEY=r8_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+# Alternative Image Generation Services (optional)
+# OPENAI_API_KEY=sk-xxxxx
+# STABILITY_API_KEY=sk-xxxxx
+

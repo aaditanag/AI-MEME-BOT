@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Meme Generator - Create Memes with AI</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-content">
+      <h1 class="logo">🎨 AI Meme Generator</h1>
+      <p class="tagline">Create hilarious memes with AI in seconds</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Main Content -->
+    <div class="content-wrapper">
+
+      <!-- Left Panel - Controls -->
+      <div class="left-panel">
+        <div class="card">
+          <h2 class="card-title">⚙️ Settings</h2>
+          
+          <!-- Mode Selector -->
+          <div class="form-group">
+            <label class="form-label">Generation Mode</label>
+            <select id="mode" class="form-select">
+              <option value="auto">🤖 Full Auto (AI Image + AI Text)</option>
+              <option value="layout">📐 Layout Only (AI Image, No Text)</option>
+              <option value="semiauto">🖼️ Semi Auto (Your Image + AI Text)</option>
+              <option value="manual">✍️ Manual (Your Image + Your Text)</option>
+            </select>
+            <p class="form-help">Choose how you want to create your meme</p>
+          </div>
+
+          <!-- Text Overlay Toggle -->
+          <div class="form-group" id="text-overlay-toggle" style="display:none;">
+            <label class="checkbox-label">
+              <input type="checkbox" id="addTextOverlay" checked class="checkbox">
+              <span>Add text overlays to image</span>
+            </label>
+          </div>
+
+          <!-- Idea Input -->
+          <div class="form-group">
+            <label class="form-label" for="idea">💡 Meme Idea</label>
+            <textarea 
+              id="idea" 
+              class="form-textarea" 
+              placeholder="E.g., a confused cat looking at a computer screen..."
+              rows="4"
+            ></textarea>
+            <p class="form-help">Describe your meme idea or concept</p>
+          </div>
+
+          <!-- Image Upload -->
+          <div class="form-group" id="upload-box">
+            <label class="form-label">📤 Upload Image</label>
+            <div class="file-upload">
+              <input type="file" id="imageInput" accept="image/*" class="file-input">
+              <label for="imageInput" class="file-label">
+                <span class="file-icon">📁</span>
+                <span class="file-text">Choose an image</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Manual Caption -->
+          <div class="form-group" id="manual-text-box" style="display:none;">
+            <label class="form-label" for="manualCaption">✍️ Your Caption</label>
+            <textarea 
+              id="manualCaption" 
+              class="form-textarea" 
+              placeholder="Enter your caption text..."
+              rows="3"
+            ></textarea>
+          </div>
+
+          <!-- Generate Button -->
+          <button id="generateBtn" class="btn-generate">
+            <span class="btn-icon">✨</span>
+            <span class="btn-text">Generate Meme</span>
+          </button>
+        </div>
+
+        <!-- Info Card -->
+        <div class="card info-card">
+          <h3 class="info-title">💡 Quick Tips</h3>
+          <ul class="info-list">
+            <li>Be specific in your prompts for better results</li>
+            <li>Try popular templates like "Drake" or "Distracted Boyfriend"</li>
+            <li>Layout mode generates clean images without text</li>
+            <li>Download both the meme and JSON spec</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Right Panel - Output -->
+      <div class="right-panel">
+
+        <!-- Output Card -->
+        <div class="card output-card">
+          <h2 class="card-title">🎨 Generated Meme</h2>
+          
+          <div id="placeholder" class="placeholder">
+            <div class="placeholder-icon">🖼️</div>
+            <p class="placeholder-text">Your meme will appear here</p>
+            <p class="placeholder-subtext">Select a mode and click Generate to start</p>
+          </div>
+
+          <div id="resultContainer" class="result-container" style="display:none;">
+            <div class="image-wrapper">
+              <img id="resultImage" class="result-image" alt="Generated meme">
+            </div>
+            
+            <div class="action-buttons">
+              <button id="downloadBtn" class="btn-action btn-primary">
+                <span>💾</span> Download Meme
+              </button>
+              <button id="downloadJsonBtn" class="btn-action btn-secondary">
+                <span>📄</span> Download JSON
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- JSON Spec Card -->
+        <div class="card json-card">
+          <div class="json-header">
+            <h3 class="card-title">📋 Meme Specification</h3>
+            <button id="copyJsonBtn" class="btn-copy" style="display:none;">
+              <span>📋</span> Copy
+            </button>
+          </div>
+          <pre id="jsonOutput" class="json-output">// JSON specification will appear here after generation</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Made with ❤️ for meme enthusiasts | <a href="https://github.com" target="_blank">View on GitHub</a></p>
+  </footer>
+
+  <script src="memeCompositor.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
