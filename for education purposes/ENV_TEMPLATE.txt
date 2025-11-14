@@ -1,0 +1,68 @@
+# Copy this file to .env in the project root
+# File name: .env (no .txt extension)
+
+# Server Configuration
+PORT=5000
+NODE_ENV=development
+
+# ========================================
+# AI MODELS CONFIGURATION (COMPETITION REQUIRED!)
+# ========================================
+
+# 1️⃣ AI Caption Generation (NLP/LLM) - CRITICAL!
+# 
+# OPTION A: Google Gemini (FREE - RECOMMENDED!) ✅
+# - 1,500 requests/day FREE forever
+# - Good quality captions
+# - No credit card needed
+# 
+# To enable:
+# 1. Go to: https://aistudio.google.com/apikey
+# 2. Click "Create API Key"
+# 3. Copy and paste below (remove the #)
+#
+GOOGLE_GEMINI_API_KEY=AIzaSyxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+# OPTION B: OpenAI GPT (Paid - only if you want best quality)
+# Cost: ~$0.002 per meme (~₹0.17)
+# Only needed if you want slightly better captions than Gemini
+#
+# OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+# 2️⃣ Image Generation - NanoBanana API (Primary)
+# Indian service, cheap and fast (₹3 per image)
+# 
+# To enable:
+# 1. Sign up at https://nanobanana.ai/
+# 2. Add credits (₹300 = 100 images)
+# 3. Get API key from dashboard
+# 4. Paste your key below (remove the #)
+#
+NANOBANANA_API_KEY=nb_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+# 3️⃣ Image Analysis (Computer Vision) - Uses Replicate CLIP
+# IMPORTANT: Same key is used for both CLIP and fallback image generation
+# Cost: ~$0.001 per image analysis
+# 
+# To enable:
+# 1. Sign up at https://replicate.com (free tier available)
+# 2. Get API token: https://replicate.com/account/api-tokens
+# 3. Paste your token below (remove the #)
+#
+REPLICATE_API_TOKEN=r8_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+# ========================================
+# COST SUMMARY (per meme) - 100% FREE OPTION!
+# ========================================
+# Google Gemini (captions):  $0.00   (FREE!) ✅
+# CLIP (image analysis):     $0.001  (~₹0.08)
+# Pollinations (image):      $0.00   (FREE!) ✅
+# ------------------------------------------
+# TOTAL per meme (FREE):     ₹0.08   (~$0.001)
+# 
+# 10 memes = ₹0.80 (~$0.01) - Almost FREE!
+# 100 memes = ₹8 (~$0.10) - Very affordable!
+#
+# NOTE: You still need $0.10 Replicate credit for CLIP
+# (free tier available at signup)
+

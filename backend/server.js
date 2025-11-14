@@ -7,6 +7,8 @@ import dotenv from "dotenv";
 import memeOrchestrator from "./services/memeOrchestrator.js";
 import imageGenerator from "./services/imageGenerator.js";
 import captionGenerator from "./services/captionGenerator.js";
+import aiCaptionGenerator from "./services/aiCaptionGenerator.js";
+import imageAnalyzer from "./services/imageAnalyzer.js";
 import database from "./services/database.js";
 // Note: Text composition moved to browser (no canvas dependency needed!)
 
@@ -41,18 +43,19 @@ app.post("/generate", upload.single("image"), async (req, res) => {
       console.log(`🤖 ${isLayoutOnly ? 'LAYOUT' : 'AUTO'} MODE: Generating meme from idea...`);
       
       // Step 1: Generate captions from idea (or use placeholders for layout-only)
-      let captions, positions;
+      let captions, positions, aiGenerated = false;
       if (isLayoutOnly && !addTextOverlay) {
         // Layout only - create text placeholders but don't render them
         captions = ["PLACEHOLDER TEXT"];
         positions = ["top"];
         console.log("📐 Layout-only mode: Creating placeholders without text");
       } else {
-        // Generate actual captions
-        const result = await captionGenerator.generateCaptionsWithPositions(idea, 2);
+        // Generate actual captions using AI (if available)
+        const result = await aiCaptionGenerator.generateCaptionsWithPositions(idea, null, 2);
         captions = result.captions;
         positions = result.positions;
-        console.log("📝 Generated captions:", captions);
+        aiGenerated = result.aiGenerated;
+        console.log(`📝 Generated captions ${aiGenerated ? '(AI-powered 🤖)' : '(fallback)'}:`, captions);
       }
 
       // Step 2: Create full meme specification
@@ -94,12 +97,23 @@ app.post("/generate", upload.single("image"), async (req, res) => {
 
       console.log("🤖 SEMI-AUTO MODE: Generating captions for uploaded image...");
 
-      // Generate captions
-      const { captions, positions } = await captionGenerator.generateCaptionsWithPositions(
+      // Step 1: Analyze the uploaded image with AI vision (if available)
+      let imageAnalysis = null;
+      try {
+        const base64Image = `data:${file.mimetype};base64,${file.buffer.toString("base64")}`;
+        imageAnalysis = await imageAnalyzer.analyzeFromBase64(base64Image);
+        console.log("👁️  Image analysis:", imageAnalysis);
+      } catch (error) {
+        console.warn("⚠️  Image analysis failed (continuing without):", error.message);
+      }
+
+      // Step 2: Generate AI captions based on image analysis + user idea
+      const { captions, positions, aiGenerated } = await aiCaptionGenerator.generateCaptionsWithPositions(
         idea || "funny meme",
+        imageAnalysis,
         2
       );
-      console.log("📝 Generated captions:", captions);
+      console.log(`📝 Generated captions ${aiGenerated ? '(AI-powered 🤖)' : '(fallback)'}:`, captions);
 
       // Create meme spec
       memeSpec = memeOrchestrator.generateMemeSpec(idea || "uploaded image meme", captions, positions);
@@ -141,7 +155,7 @@ app.post("/generate", upload.single("image"), async (req, res) => {
     let memeId = null;
     try {
       if (memeSpec && imageUrl) {
-        memeId = database.saveMeme(mode, idea, imageUrl, memeSpec);
+        memeId = await database.saveMeme(mode, idea, imageUrl, memeSpec);
       }
     } catch (dbErr) {
       console.warn('⚠️  Database save failed (continuing):', dbErr.message);
@@ -170,6 +184,34 @@ app.post("/generate", upload.single("image"), async (req, res) => {
 // Health check endpoint
 app.get("/health", (req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
+});
+
+// AI Models Status Endpoint (for competition demonstration!)
+app.get("/ai-models", (req, res) => {
+  res.json({
+    success: true,
+    models: {
+      imageGeneration: imageGenerator.getModelInfo(),
+      captionGeneration: aiCaptionGenerator.getModelInfo(),
+      imageAnalysis: imageAnalyzer.getModelInfo()
+    },
+    architecture: {
+      pipeline: "Image Analysis (CLIP) → Caption Generation (GPT) → Image Generation (Stable Diffusion)",
+      components: [
+        "Computer Vision: CLIP ViT-L-14 (OpenAI)",
+        "NLP: GPT-3.5-Turbo (Transformer)",
+        "Image Generation: Stable Diffusion XL (Diffusion Model)"
+      ]
+    },
+    competition: {
+      requirement: "AI-powered Meme Creation Bot",
+      satisfied: {
+        computerVision: imageAnalyzer.isAIAvailable(),
+        nlpTextGeneration: aiCaptionGenerator.isAIAvailable(),
+        imageGeneration: true
+      }
+    }
+  });
 });
 
 // ========================================

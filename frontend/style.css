@@ -372,6 +372,8 @@ body {
    ======================================== */
 .output-card {
   min-height: 500px;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .placeholder {
@@ -400,6 +402,9 @@ body {
 
 .result-container {
   animation: fadeIn 0.5s ease-in;
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 @keyframes fadeIn {
@@ -418,12 +423,23 @@ body {
   overflow: hidden;
   box-shadow: var(--shadow-lg);
   background: var(--gray-100);
+  max-height: 600px;
+  max-width: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
 }
 
 .result-image {
+  max-width: 100%;
+  max-height: 600px;
   width: 100%;
   height: auto;
   display: block;
+  object-fit: contain;
+  box-sizing: border-box;
 }
 
 /* ========================================
